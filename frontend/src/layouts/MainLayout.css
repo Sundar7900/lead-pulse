@@ -1,0 +1,23 @@
+.app-layout {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 80px;
+  }
+  
+  .main-content {
+    margin-left: 80px;
+  }
+  
+  .sidebar-brand h2,
+  .sidebar-link span {
+    display: none;
+  }
+}
