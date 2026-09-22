@@ -1,20 +1,32 @@
 import axios from 'axios'
 
-// Base API URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+// Dynamic Base API URL with localStorage override support
+export const getApiBaseUrl = () => {
+  const custom = typeof window !== 'undefined' ? localStorage.getItem('leadpulse_api_url') : null
+  if (custom && custom.trim()) {
+    return custom.trim().replace(/\/+$/, '')
+  }
+  
+  const envUrl = import.meta.env.VITE_API_URL
+  if (envUrl && envUrl.trim()) {
+    return envUrl.trim().replace(/\/+$/, '')
+  }
+
+  return 'http://localhost:8000'
+}
 
 // Create axios instance
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getApiBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// Request interceptor
+// Update baseURL dynamically before every request
 api.interceptors.request.use(
   (config) => {
-    // Add any auth headers here in the future
+    config.baseURL = getApiBaseUrl()
     return config
   },
   (error) => {

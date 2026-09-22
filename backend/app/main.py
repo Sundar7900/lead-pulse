@@ -35,14 +35,11 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS
-allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,*")
-origins = [o.strip() for o in allowed_origins_env.split(",") if o.strip()]
-
+# Configure CORS (allow any origin for public cloud deployment)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

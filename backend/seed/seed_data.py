@@ -484,7 +484,7 @@ def seed_database(use_mongodb: bool = True):
     print(f"   [OK] Generated {len(alerts)} alerts")
 
     # Insert into database
-    if use_mongodb and Database.db and not Database.is_memory_db():
+    if use_mongodb and Database.db is not None and not Database.is_memory_db():
         print("\n5. Inserting into MongoDB...")
         
         # Clear existing data
